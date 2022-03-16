@@ -1,9 +1,14 @@
-####  AWRA-L full dynamic run  #### 
+########  AWRA-L full dynamic run using calibrated parameters   ######### 
+
+# Due to the different sensitivity of parameters at each catchment, 
+# the length and the components of "pars" will differ. 
+# make sure all the data read in are in the matrix format, using the as.matrix() command. 
 
 Run_AWRAL_calib_GB <- function(pars,all_forcing,STATIC_PAR,N_GRID=1)  {
   
   ## all_forcing: full time series of each forcing variable for the site 
   ## STATIC_PAR: the static parameters including ftree, 3 SzFC and mean potential evapotranspiration
+  
   
   II = rbind(1,1)
   
@@ -11,12 +16,15 @@ Run_AWRAL_calib_GB <- function(pars,all_forcing,STATIC_PAR,N_GRID=1)  {
    
   #####  Update the initial parameters by the pars to be optimised  #####
 
-  Init_PARAMS$Sgref <- pars[1]; Init_PARAMS$Ud01 <- pars[2]
-  Init_PARAMS$FsoilEmax1 <- pars[3];  Init_PARAMS$S_sls1 <- pars[4]
-  Init_PARAMS$S_sls2 <- pars[5]; Init_PARAMS$ER_frac_ref1 <- pars[6]
-  Init_PARAMS$FdrainFC1 <- pars[7]; Init_PARAMS$beta1 <- pars[8];
-  Init_PARAMS$LAImax1 <- pars[9]
-  
+    ###### Updated: must be the in the Fhru format, there are no "Ud01" etc in the parameter set 
+  Init_PARAMS$Ud0 = II*c(pars[1],0)
+  Init_PARAMS$FsoilEmax = II * c(pars[2],0.5)  
+  Init_PARAMS$S_sls = II * c(pars[3],0.1)
+  Init_PARAMS$ER_frac_ref = II*c(pars[4],0.05)
+  Init_PARAMS$FdrainFC = II * c(pars[5],0.029) 
+  Init_PARAMS$beta <- II * c(pars[6],4.5)
+  Init_PARAMS$LAImax <- II * c(pars[7],8)
+ 
   PARAMS <- Init_PARAMS  # updated parameter
   
   ## Extract forcing data for ALL TIME
@@ -36,15 +44,16 @@ Run_AWRAL_calib_GB <- function(pars,all_forcing,STATIC_PAR,N_GRID=1)  {
   meanPET = STATIC_PAR$meanPET
   humidity = meanP / meanPET
   
-  #Sgref= pmax(0.0,  8.15 * meanP^2.34)
-  # FdrainFC = pmax(pmin(0.0685*rbind(humidity,humidity)^3.179,0.3),0.005)
+  Sgref= pmax(0.0,  8.15 * meanP^2.34)
+  FdrainFC = pmax(pmin(0.0685*rbind(humidity,humidity)^3.179,0.3),0.005)
   K_gw   = 0.047*(humidity^(-0.0508))
   K_rout = 0.141*meanPET + 0.284
   
   ##  BACK-updating 
   PARAMS$K_gw    = K_gw
   PARAMS$K_rout  = K_rout
-  #PARAMS$Sgref    = Sgref
+  PARAMS$Sgref    = Sgref
+  PARAMS$FdrainFC = II * c(pars[7],FdrainFC[2,])    # replace FdrainFC2 when it's insensitive 
   
   ### update states 
   STATES = list(
