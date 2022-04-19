@@ -319,3 +319,6 @@ PARAMS_set <- function(II,STATIC_PAR =NULL){
   return(PARAMS)
   
 }
+
+
+#### Scenario 3 
