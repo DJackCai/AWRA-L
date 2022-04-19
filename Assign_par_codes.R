@@ -322,3 +322,28 @@ PARAMS_set <- function(II,STATIC_PAR =NULL){
 
 
 #### Scenario 3 
+
+PARAMS_OPT <- function(N_GRID, par_mat, STATIC_PAR) {
+  # par_mat: N * p matrix of the grid-specific optimised parameter 
+  II = rbind(rep(1,N_GRID), rep(1,N_GRID))
+  Init_PARAMS <- PARAMS_set(II,STATIC_PAR = STATIC_PAR)
+  
+  #####  Update the initial parameters by the pars being optimised  #####
+  
+  Init_PARAMS$Vc <- rbind(par_mat[,1],II[2,] * 0.65)
+  
+  Init_PARAMS$Gfrac_max <-rbind(II[1,]*0.3,par_mat[,2]) 
+  
+  Init_PARAMS$Us0 =   rbind(II[1,]*6,par_mat[,3])     
+  Init_PARAMS$Ud0 = rbind(par_mat[,4],   II[2,] * 0)   
+  Init_PARAMS$FsoilEmax = rbind(par_mat[,5], par_mat[,6])
+  Init_PARAMS$S_sls =   rbind(par_mat[,7], II[2,] *0.1)
+  Init_PARAMS$FdrainFC = rbind(par_mat[,8], par_mat[,9])
+  Init_PARAMS$beta <- rbind(par_mat[,10], par_mat[,11])
+  Init_PARAMS$LAImax <- rbind(II[1,] * 8,   par_mat[,12])   
+  Init_PARAMS$Tgrow <- rbind(II[1,] * 1000,   par_mat[,13])    
+  
+  PARAMS = Init_PARAMS
+  return(PARAMS)
+  
+}
