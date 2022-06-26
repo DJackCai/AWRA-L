@@ -31,10 +31,23 @@ ggplot(Eff_catch_bind) + geom_point(aes(x= lag1_SMAP_Q, y = NSE,col = "SMAP"), s
   
   
 
-#### note: increase the spacing between legend labels 
+#### note1 : increase the spacing between legend labels ##### 
+
 ggplot(mtcars, aes(y = factor(cyl), fill = factor(cyl))) + 
   geom_bar() +
   ## specify spacing
   theme(legend.spacing.y = unit(1.0, 'cm'))  +
   ## important additional element to make sure it goes from top to bottom and thus increase the space vertically
   guides(fill = guide_legend(byrow = TRUE))
+
+## note2: can adjust the legend title by matching aesthetics in "labs()"
+## example: https://stackoverflow.com/questions/23635662/editing-legend-text-labels-in-ggplot
+
+ggplot(mtcars, aes(x=mpg, y=disp, size=hp, 
+                   col=as.factor(cyl), shape=as.factor(gear))) +
+  geom_point() +
+## correspondingly specify legend titles for size, colour and shape
+  labs(x="miles per gallon", y="displacement", size="horsepower", 
+       col="# of cylinders", shape="# of gears")
+
+
