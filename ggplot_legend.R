@@ -30,3 +30,11 @@ ggplot(Eff_catch_bind) + geom_point(aes(x= lag1_SMAP_Q, y = NSE,col = "SMAP"), s
   scale_fill_manual(name = "Scenario",values = c("cyan","orange"),label = c("Uncalibrated","SMAP- \nCalibrated"))
   
   
+
+#### note: increase the spacing between legend labels 
+ggplot(mtcars, aes(y = factor(cyl), fill = factor(cyl))) + 
+  geom_bar() +
+  ## specify spacing
+  theme(legend.spacing.y = unit(1.0, 'cm'))  +
+  ## important additional element to make sure it goes from top to bottom and thus increase the space vertically
+  guides(fill = guide_legend(byrow = TRUE))
