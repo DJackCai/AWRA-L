@@ -51,7 +51,7 @@ ggplot(mtcars, aes(x=mpg, y=disp, size=hp,
        col="# of cylinders", shape="# of gears")
 
 #### 27/Jun/2022: Add legend to the raster in base plot ###
-
+# reference: https://stackoverflow.com/questions/9436947/legend-properties-when-legend-only-t-raster-package
 # key: the use of legend.args - line: vertically, adj: horizontally
 
 plot(delta_r,xlab = "Longitude",  ylab = "Latitude", legend.args = list(text = expression(delta),line = 0.5, 
