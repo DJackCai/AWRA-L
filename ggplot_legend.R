@@ -58,3 +58,11 @@ plot(delta_r,xlab = "Longitude",  ylab = "Latitude", legend.args = list(text = e
                         adj = 0.2, cex = 1.4))
 
 
+### Increase the space between two different legend boxes in ggplot2 ## 
+
+## ||| specify legend.spacing.y = unit(0, 'cm') in the theme ! |||
+graph.theme.beta<-theme(plot.margin = unit(c(0.9,0.5,0.5,0.5), "cm"),
+                        legend.spacing.y = unit(0, 'cm'),
+                        legend.margin= margin(unit(0, "cm")))
+        
+
