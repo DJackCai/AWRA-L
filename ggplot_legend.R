@@ -50,4 +50,11 @@ ggplot(mtcars, aes(x=mpg, y=disp, size=hp,
   labs(x="miles per gallon", y="displacement", size="horsepower", 
        col="# of cylinders", shape="# of gears")
 
+#### 27/Jun/2022: Add legend to the raster in base plot ###
+
+# key: the use of legend.args - line: vertically, adj: horizontally
+
+plot(delta_r,xlab = "Longitude",  ylab = "Latitude", legend.args = list(text = expression(delta),line = 0.5, 
+                        adj = 0.2, cex = 1.4))
+
 
